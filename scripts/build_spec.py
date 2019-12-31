@@ -33,24 +33,16 @@ SSZObject = TypeVar('SSZObject', bound=SSZType)
 PHASE1_IMPORTS = '''from typing import (
     Any, Dict, Set, Sequence, MutableSequence, NewType, Tuple, Union, TypeVar
 )
-from math import (
-    log2,
-)
 
 from dataclasses import (
     dataclass,
     field,
 )
 
-from eth2spec.utils.ssz.ssz_impl import (
-    hash_tree_root,
-    is_zero,
-)
+from eth2spec.utils.ssz.ssz_impl import hash_tree_root
 from eth2spec.utils.ssz.ssz_typing import (
-    BasicValue, Elements, BaseBytes, BaseList, SSZType,
-    Container, List, Vector, ByteList, ByteVector, Bitlist, Bitvector, Bits,
-    Bytes1, Bytes4, Bytes8, Bytes32, Bytes48, Bytes96,
-    uint64, bit, boolean, byte,
+    boolean, Container, List, Vector, uint64,
+    Bytes1, Bytes4, Bytes8, Bytes32, Bytes48, Bytes96, Bitlist, Bitvector,
 )
 from eth2spec.utils import bls
 
