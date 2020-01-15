@@ -21,14 +21,14 @@ from dataclasses import (
 
 from eth2spec.utils.ssz.ssz_impl import hash_tree_root
 from eth2spec.utils.ssz.ssz_typing import (
-    boolean, Container, List, Vector, uint64, SSZType,
+    View, boolean, Container, List, Vector, uint64,
     Bytes1, Bytes4, Bytes8, Bytes32, Bytes48, Bytes96, Bitlist, Bitvector,
 )
 from eth2spec.utils import bls
 
 from eth2spec.utils.hash_function import hash
 
-SSZObject = TypeVar('SSZObject', bound=SSZType)
+SSZObject = TypeVar('SSZObject', bound=View)
 '''
 PHASE1_IMPORTS = '''from typing import (
     Any, Dict, Set, Sequence, MutableSequence, NewType, Tuple, Union, TypeVar
@@ -41,7 +41,7 @@ from dataclasses import (
 
 from eth2spec.utils.ssz.ssz_impl import hash_tree_root
 from eth2spec.utils.ssz.ssz_typing import (
-    boolean, Container, List, Vector, uint64,
+    View, boolean, Container, List, Vector, uint64,
     Bytes1, Bytes4, Bytes8, Bytes32, Bytes48, Bytes96, Bitlist, Bitvector,
 )
 from eth2spec.utils import bls
@@ -51,7 +51,7 @@ from eth2spec.utils.hash_function import hash
 
 SSZVariableName = str
 GeneralizedIndex = NewType('GeneralizedIndex', int)
-SSZObject = TypeVar('SSZObject', bound=SSZType)
+SSZObject = TypeVar('SSZObject', bound=View)
 '''
 SUNDRY_CONSTANTS_FUNCTIONS = '''
 def ceillog2(x: uint64) -> int:

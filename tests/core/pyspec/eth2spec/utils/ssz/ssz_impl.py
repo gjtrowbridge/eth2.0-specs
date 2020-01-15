@@ -1,5 +1,5 @@
-from pymerkles.core import View
-from pymerkles.tree import merkle_hash
+from remerkleable.core import View
+from remerkleable.tree import merkle_hash
 
 
 def serialize(obj: View) -> bytes:
