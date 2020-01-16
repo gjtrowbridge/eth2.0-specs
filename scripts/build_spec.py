@@ -73,20 +73,29 @@ def hash(x: bytes) -> Bytes32:  # type: ignore
     return hash_cache[x]
 
 
-# Monkey patch validator compute committee code
-_compute_committee = compute_committee
-committee_cache: Dict[Tuple[Bytes32, Bytes32, int, int], Sequence[ValidatorIndex]] = {}
+def cache_this(key_fn, value_fn):
+    cache_dict = {}
+
+    def wrapper(*args, **kw):
+        key = key_fn(*args, **kw)
+        nonlocal cache_dict
+        if key not in cache_dict:
+            cache_dict[key] = value_fn(*args, **kw)
+        return cache_dict[key]
+    return wrapper
 
 
-def compute_committee(indices: Sequence[ValidatorIndex],  # type: ignore
-                      seed: Bytes32,
-                      index: int,
-                      count: int) -> Sequence[ValidatorIndex]:
-    param_hash = (hash(b''.join(index.to_bytes(length=4, byteorder='little') for index in indices)), seed, index, count)
+get_committee_count_at_slot = cache_this(
+    lambda state, epoch: (state.validators.hash_tree_root(), epoch),
+    get_committee_count_at_slot)
 
-    if param_hash not in committee_cache:
-        committee_cache[param_hash] = _compute_committee(indices, seed, index, count)
-    return committee_cache[param_hash]
+get_active_validator_indices = cache_this(
+    lambda state, epoch: (state.validators.hash_tree_root(), epoch),
+    get_active_validator_indices)
+
+get_beacon_committee = cache_this(
+    lambda state, slot, index: (state.validators.hash_tree_root(), state.randao_mixes.hash_tree_root(), slot, index),
+    get_beacon_committee)
 
 
 # Access to overwrite spec constants based on configuration
